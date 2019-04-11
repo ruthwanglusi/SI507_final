@@ -1,14 +1,14 @@
-# Project Title
+# Mapping National Parks in the US
 
 Name
 
-[Link to this repository](https://www.example.com)
+[Link to this repository](https://github.com/ruthwanglusi/SI507_final)
 
 ---
 
 ## Project Description
 
-This should be a brief description of what your project is and does.  
+This project visualizes the US national parks’ location on a  choropleth map in web browser using Flask. The project will allow users to see the density of national parks in 51 states of the US. Click on the map to access a full list of national parks at the clicked state (also accessible by directly type in URLs). Update the density choropleth map as user filter through various park types.
 
 ## How to run
 
@@ -23,10 +23,9 @@ This should be a brief description of what your project is and does.
 3. (Optional): Markdown syntax to include an screenshot/image: ![alt text](image.jpg)
 
 ## Routes in this application
-- `/home` -> this is the home page
-- `/form` -> this route has a form for user input
-- `/result` -> this route is where the form sends the result...
-- `/newuser/<username>` -> this route also takes input of a name and shows you a greeting
+- `/home` -> The overall national park density among all the US states visualized as a choropleth map.
+- `/state/(state name)` -> A list of all the national parks in a specific state.
+- `/type/(park type)` -> The density of a specific park type across all US states as a choropleth map.
 
 ## How to run tests
 1. First... (e.g. access a certain directory if necessary)
