@@ -27,12 +27,8 @@ for i in range(len(states)):
         program_cache.set(url, data, expire_in_days=10)
 
 '''
-2.parse the cached data in park_cache.json & store to a CSV file
+2.parse the cached data in park_cache.json
 '''
-# create the CSV file
-csv_file = open('park_scrape.csv', 'w')
-csv_writer = csv.writer(csv_file)
-csv_writer.writerow(['Name','Type','Description','Location','State(s)'])
 
 # access the html stored for each state's URL
 urlLst = list(program_cache.cache_diction.values())
@@ -86,8 +82,6 @@ for i in range(len(urlLst)):
         except Exception as e:
             parkLoc = None
             parkState = None
-
-        # write to the CSV file
-        csv_writer.writerow([parkName,parkType,parkDes,parkLoc,parkState])
-
-csv_file.close()
+'''
+3. store in park_info.db
+'''

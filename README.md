@@ -10,6 +10,8 @@ Name
 
 This project visualizes the US national parks’ location on a  choropleth map in web browser using Flask. The project will allow users to see the density of national parks in 51 states of the US. Click on the map to access a full list of national parks at the clicked state (also accessible by directly type in URLs). Update the density choropleth map as user filter through various park types.
 
+Data Source: www.nps.gov
+
 ## How to run
 
 1. First, you should ... (e.g. install all requirements with `pip install -r requirements.txt`)
