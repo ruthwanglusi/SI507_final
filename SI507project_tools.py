@@ -1,11 +1,13 @@
-'''
-1. cache the content from www.nps.gov
-'''
 from bs4 import BeautifulSoup
 import requests, json
 from advanced_expiry_caching import Cache
 
-import csv
+from flask import *
+from flask_sqlalchemy import SQLAlchemy
+
+'''
+1. cache the content from www.nps.gov
+'''
 
 FILENAME = "park_cache.json"
 program_cache = Cache(FILENAME)
@@ -85,3 +87,18 @@ for i in range(len(urlLst)):
 '''
 3. store in park_info.db
 '''
+app = Flask(__name__)
+app.debug = True
+app.use_reloader = True
+
+##### Routes #####
+# welcome page
+@app.route('/')
+def home():
+    return '<h1>Welcome to the Movie Info Site.</h1>'
+
+##### Run the Program #####
+if __name__ == '__main__':
+    # db.drop_all()
+    # db.create_all() # This will create database in current directory
+    app.run()
