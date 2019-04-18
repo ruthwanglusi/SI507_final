@@ -41,6 +41,9 @@ Data Source: www.nps.gov
 - SI507project_test.py
 - README.md
 
+## Database diagram:
+![](image/ERD_diagram.png)
+
 ---
 ## Code Requirements for Grading
 Please check the requirements you have accomplished in your code as demonstrated.
