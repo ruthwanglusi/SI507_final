@@ -36,8 +36,9 @@ Data Source: www.nps.gov
 - Image
   - ERD_diagram.png
 - File name
-- SI507project_tool_scrape
-- SI507project_tool_database
+- SI507project_tool_scrape.py
+- SI507project_tool_app.py
+- SI507SI507project_tool_db.py
 - SI507project_test.py
 - README.md
 
