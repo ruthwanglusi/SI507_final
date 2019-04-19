@@ -1,7 +1,8 @@
 import os
 from flask import *
 from flask_sqlalchemy import SQLAlchemy
-from SI507project_tool_db import *
+from SI507project_tool_pop import *
+from SI507project_tool_scrape import *
 
 ##### Application Configuration #####
 app = Flask(__name__)
@@ -19,6 +20,11 @@ session = db.session # to make queries easy
 
 
 ##### Set Up Models #####
+#Set up association Table between artists and albums
+Park_State = db.Table('PARK_STATE',
+    db.Column('park_id', db.Integer, db.ForeignKey('PARK.park_id'), primary_key=True),
+    db.Column('state_id', db.Integer, db.ForeignKey('STATE.id'), primary_key=True)
+)
 
 class Park(db.Model):
     __tablename__ = 'PARK'
@@ -28,14 +34,16 @@ class Park(db.Model):
 
     # TYPE & PARK (1-many)
     type_id = db.Column(db.Integer, db.ForeignKey('TYPE.id'))
-    type = db.relationship('Type', backref='isType', lazy=True)
+    type = db.relationship('Type', backref='type', lazy=True)
 
     # STATE & PARK (many-many)
-    state_id = db.Column(db.Integer, db.ForeignKey('STATE.id'))
-    states = db.relationship('State', secondary = 'PARK_STATE', backref='inStates', lazy=True)
+    # state_id = db.Column(db.Integer, db.ForeignKey('PARK_STATE.state_id'))
+    states = db.relationship('State', secondary = Park_State, lazy='subquery',
+    backref=db.backref('states',lazy=True))
 
     def __repr__(self):
-        return '{} || {} | {}'.format(self.name, self.stateName, self.parkType)
+        # ***********'query the type table = my name'
+        return f'{self.name}\n{self.type}\n{self.states}\n{self.descrip}'
 
 # TYPE & PARK (1-many)
 class Type(db.Model):
@@ -44,35 +52,32 @@ class Type(db.Model):
     name = db.Column(db.String(250),unique=True, nullable=False)
 
     def __repr__(self):
-        return f'This is a {self.name} park'
+        return f'This is a {self.name}.'
 
 # STATE & PARK (many-many)
-class Park_State(db.Model):
-	__tablename__ = 'PARK_STATE'
-	state_id = db.Column(db.Integer, db.ForeignKey('STATE.id'), primary_key = True)
-	park_id = db.Column(db.Integer, db.ForeignKey('PARK.park_id'), primary_key = True)
-
 class State(db.Model):
     __tablename__ = 'STATE'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120),unique=True, nullable=False)
-    parks = db.relationship('Park', secondary = 'PARK_STATE', backref='state', lazy=True)
 
     def __repr__(self):
-        return '{}'.format(self.name)
+        return f'{self.name}'
 
 ##### Routes #####
 @app.route('/')
 def home():
-    pass
+    return 'MAPPPP'
+
 
 ##### Run the Program #####
 if __name__ == '__main__':
     # db.drop_all()
     db.create_all()
+    parks = set_db_data()
+    print(parks)
+
+
     app.run()
-
-
 
 # References:
 # https://github.com/si507-w19/database_population_flask_example/blob/master/app.py

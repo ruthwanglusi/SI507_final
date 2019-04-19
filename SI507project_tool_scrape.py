@@ -1,11 +1,10 @@
-'''
-1. cache the content from www.nps.gov
-'''
 from bs4 import BeautifulSoup
 import requests, json
 from advanced_expiry_caching import Cache
 
-import csv
+'''
+1. cache the content from www.nps.gov
+'''
 
 FILENAME = "park_cache.json"
 program_cache = Cache(FILENAME)
@@ -29,53 +28,71 @@ for i in range(len(states)):
 '''
 2.parse the cached data in park_cache.json
 '''
+def scraped_parks:
 
-# access the html stored for each state's URL
-urlLst = list(program_cache.cache_diction.values())
-for i in range(len(urlLst)):
-    soup = BeautifulSoup(urlLst[i]['values'],'html.parser')
-    # print(soup.prettify())
+    # access the html stored for each state's URL
+    urlLst = list(program_cache.cache_diction.values())
 
-    parks = soup.find('ul', id='list_parks').findAll('li', recursive=False)
+    parkInfoLst = []
 
-    for eachPark in parks:
-        # Name of the site
-        try:
-            parkName = eachPark.h3.a.text
-            print(parkName)
-        except Exception as e:
-            parkName = None
+    parkNameLst = []
+    parkTypeLst = []
+    parkDesLst = []
+    parkStatesLst = []
 
-        # type of the site
-        try:
-            parkType = eachPark.h2.text
-            # print(parkType)
-        except Exception as e:
-            parkType = None
+    for i in range(len(urlLst)):
+        soup = BeautifulSoup(urlLst[i]['values'],'html.parser')
+        # print(soup.prettify())
 
-        # Description of the site
-        try:
-            parkDes = eachPark.p.text.strip()
-            # print(parkDes)
-        except Exception as e:
-            parkDes = None
+        parks = soup.find('ul', id='list_parks').findAll('li', recursive=False)
 
-        # Locations of the site
-        try:
-            parkLoc = eachPark.h4.text
+        for eachPark in parks:
+            # Name of the site
+            try:
+                parkName = eachPark.h3.a.text
+                parkNameLst.append(parkName)
+            except Exception as e:
+                parkName = None
 
-            # States of the the site
-            locSplit = parkLoc.split(',')
-            stateLst = []
+            # type of the site
+            try:
+                parkType = eachPark.h2.text
+                parkTypeLst.append(parkType)
+            except Exception as e:
+                parkType = None
 
-            for s in locSplit:
-                if s.startswith('Various States'):
-                    stateLst.append(s.split(' ')[-1].strip())
-                elif len(s.strip()) == 2:
-                    stateLst.append(s.strip())
-                else:
-                     pass
+            # Description of the site
+            try:
+                parkDes = eachPark.p.text.strip()
+                parkDesLst.append(parkDes)
+            except Exception as e:
+                parkDes = None
 
-        except Exception as e:
-            parkLoc = None
-            parkState = None
+            # Locations of the site
+            try:
+                parkLoc = eachPark.h4.text
+
+                # States of the the site
+                locSplit = parkLoc.split(',')
+                stateLst = []
+
+                for s in locSplit:
+                    if s.startswith('Various States'):
+                        stateLst.append(s.split(' ')[-1].strip())
+                    elif len(s.strip()) == 2:
+                        stateLst.append(s.strip())
+                    else:
+                         pass
+                parkStatesLst.append(stateLst)
+            except Exception as e:
+                parkLoc = None
+                parkState = None
+
+    parkInfoLst.append(parkNameLst)
+    parkInfoLst.append(parkTypeLst)
+    parkInfoLst.append(parkDesLst)
+    parkInfoLst.append(parkStatesLst)
+
+    return parkInfoLst
+
+scraped_parks()

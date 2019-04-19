@@ -1,56 +1,38 @@
 from SI507project_tool_app import *
-from SI507project_tool_scrape import *
 
 def set_get_type(parkType):
-    qType = Type.query.filter_by(name=parkType)
+    print(parkType)
+    qType = Type.query.filter_by(name=parkType).first()
+    print(qType)
     if not qType:
         qType = Type(name=parkType)
         session.add(qType)
         session.commit()
-    return qType
+        tid = qType.id
+    return tid
 
-
-def set_get_state():
-    qState = State.query.filter_by(name=)
-
-
-
-
-'''
-3.parse the cached data in park_cache.json and put in park_info.db
-'''
-
-
-
-        # Locations of the site
-        try:
-            parkLoc = eachPark.h4.text
-            # print(parkLoc)
-
-            # States of the the site
-            locSplit = parkLoc.split(',')
-            stateLst = []
-
-            for s in locSplit:
-                if s.startswith('Various States'):
-                    stateLst.append(s.split(' ')[-1].strip())
-                elif len(s.strip()) == 2:
-                    stateLst.append(s.strip())
-                else:
-                     pass
-            print(stateLst)
-            # parkState = ', '.join(stateLst)
-            # print(parkState)
-            # print()
-        except Exception as e:
-            parkLoc = None
-            parkState = None
-
-        row = Park(name=parkName,descrip='parkDes')
-        session.add(row)
+def set_get_state(eachState):
+    qState = State.query.filter_by(name=eachState).first()
+    if not qState:
+        qState = State(name=eachState)
+        session.add(qState)
         session.commit()
+    return qState
 
+def new_park(name,descrip,type_id,states):
+    if Park.query.filter_by(name=parkName).first():
+        pass
+    else:
+        sLst = []
+        for i in range(len(stateLst)):
+            eachState = stateLst[i]
+            sLst.append(set_get_state(eachState))
 
+        park = Park(name=parkName, descrip=parkDes,type_id=tid)
+        for s in range(len(sLst)):
+            park.states.append(s)
+        session.add(park)
+        session.commit()
 
 ##### Run the Program #####
 if __name__ == '__main__':
