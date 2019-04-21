@@ -1,4 +1,5 @@
 import os
+import jinja2
 from flask import *
 from flask_sqlalchemy import SQLAlchemy
 from SI507project_tool_pop import *
@@ -19,7 +20,9 @@ db = SQLAlchemy(app) # For database use
 session = db.session # to make queries easy
 
 
-##### Set Up Models #####
+'''
+set up the database models
+'''
 #Set up association Table between artists and albums
 Park_State = db.Table('PARK_STATE',
     db.Column('park_id', db.Integer, db.ForeignKey('PARK.park_id')),
@@ -62,25 +65,30 @@ class State(db.Model):
     def __repr__(self):
         return f'{self.name}'
 
-##### Routes #####
+'''
+Set up Routes for webpage
+'''
 @app.route('/')
 def home():
     return 'MAPPPP'
 
 
-##### Run the Program #####
-if __name__ == '__main__':
+'''
+Run the Program
+'''
+#create a new park_info.db
+def create_db():
     # db.drop_all()
     db.create_all()
 
-    # cache = cache_parks() ask question
     coll = parse_parks()
     namesAll = coll[0]
     typesAll = coll[1]
     desAll = coll[2]
     statesAll = coll[3]
 
-    # for i in range(2):
+    # count = 0
+    
     for i in range(len(namesAll)):
 
         name = coll[0][i]
@@ -88,10 +96,18 @@ if __name__ == '__main__':
         descrip = coll[2][i]
         states = coll[3][i]
 
+        # if len(type) == 0:
+        #     count += 1
+        # else:
+        #     pass
+
         new_park(name,descrip,type,states)
-    print(len(statesAll))
+    # print(count)
+
+if __name__ == '__main__':
+    create_db()
     app.run()
 
 # References:
 # https://github.com/si507-w19/database_population_flask_example/blob/master/app.py
-#???how to add the none in the assiciation table? why missing some, states?
+#???why missing 200 parks? empty list for states 8, none for type 42
