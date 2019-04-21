@@ -1,10 +1,8 @@
 from bs4 import BeautifulSoup
 import requests, json
 from advanced_expiry_caching import Cache
+import re
 
-'''
-1. cache the content from www.nps.gov
-'''
 
 FILENAME = "park_cache.json"
 program_cache = Cache(FILENAME)
@@ -15,21 +13,24 @@ states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA",
           "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
           "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
 
-for i in range(len(states)):
-    eachState = states[i]
-    url = "https://www.nps.gov/state/" + eachState + "/index.htm"
 
-    # check if data from this url already exists in cache, if not request.get, then put in cache
-    data = program_cache.get(url)
-    if not data:
-        data = requests.get(url).text
-        program_cache.set(url, data, expire_in_days=10)
+def parse_parks():
+    '''
+    1. cache the content from www.nps.gov
+    '''
+    for i in range(len(states)):
+        eachState = states[i]
+        url = "https://www.nps.gov/state/" + eachState + "/index.htm"
 
-'''
-2.parse the cached data in park_cache.json
-'''
-def scraped_parks:
+        # check if data from this url already exists in cache, if not request.get, then put in cache
+        data = program_cache.get(url)
+        if not data:
+            data = requests.get(url).text
+            program_cache.set(url, data, expire_in_days=10)
 
+    '''
+    2.parse the cached data in park_cache.json
+    '''
     # access the html stored for each state's URL
     urlLst = list(program_cache.cache_diction.values())
 
@@ -71,19 +72,16 @@ def scraped_parks:
             # Locations of the site
             try:
                 parkLoc = eachPark.h4.text
-
-                # States of the the site
-                locSplit = parkLoc.split(',')
+                locSplit=re.split('\s+|,',parkLoc)
                 stateLst = []
-
                 for s in locSplit:
-                    if s.startswith('Various States'):
-                        stateLst.append(s.split(' ')[-1].strip())
-                    elif len(s.strip()) == 2:
-                        stateLst.append(s.strip())
+                    if s.strip().isupper() and len(s.strip())==2:
+                        st=s.strip()
+                        stateLst.append(st)
                     else:
-                         pass
+                        pass
                 parkStatesLst.append(stateLst)
+
             except Exception as e:
                 parkLoc = None
                 parkState = None
@@ -94,5 +92,5 @@ def scraped_parks:
     parkInfoLst.append(parkStatesLst)
 
     return parkInfoLst
-
-scraped_parks()
+if __name__ == '__main__':
+    parse_parks()

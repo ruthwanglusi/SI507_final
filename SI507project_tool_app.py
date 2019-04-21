@@ -22,8 +22,8 @@ session = db.session # to make queries easy
 ##### Set Up Models #####
 #Set up association Table between artists and albums
 Park_State = db.Table('PARK_STATE',
-    db.Column('park_id', db.Integer, db.ForeignKey('PARK.park_id'), primary_key=True),
-    db.Column('state_id', db.Integer, db.ForeignKey('STATE.id'), primary_key=True)
+    db.Column('park_id', db.Integer, db.ForeignKey('PARK.park_id')),
+    db.Column('state_id', db.Integer, db.ForeignKey('STATE.id'))
 )
 
 class Park(db.Model):
@@ -41,15 +41,14 @@ class Park(db.Model):
     states = db.relationship('State', secondary = Park_State, lazy='subquery',
     backref=db.backref('states',lazy=True))
 
-    def __repr__(self):
-        # ***********'query the type table = my name'
-        return f'{self.name}\n{self.type}\n{self.states}\n{self.descrip}'
+    # def __repr__(self):
+    #     return f'{self.name}\n{self.type}\n{self.states}\n{self.descrip}'
 
 # TYPE & PARK (1-many)
 class Type(db.Model):
     __tablename__ = 'TYPE'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(250),unique=True, nullable=False)
+    name = db.Column(db.String(250),unique=True) #some park may not have a type
 
     def __repr__(self):
         return f'This is a {self.name}.'
@@ -73,11 +72,26 @@ def home():
 if __name__ == '__main__':
     # db.drop_all()
     db.create_all()
-    parks = set_db_data()
-    print(parks)
 
+    # cache = cache_parks() ask question
+    coll = parse_parks()
+    namesAll = coll[0]
+    typesAll = coll[1]
+    desAll = coll[2]
+    statesAll = coll[3]
 
+    # for i in range(2):
+    for i in range(len(namesAll)):
+
+        name = coll[0][i]
+        type = coll[1][i]
+        descrip = coll[2][i]
+        states = coll[3][i]
+
+        new_park(name,descrip,type,states)
+    print(len(statesAll))
     app.run()
 
 # References:
 # https://github.com/si507-w19/database_population_flask_example/blob/master/app.py
+#???how to add the none in the assiciation table? why missing some, states?
