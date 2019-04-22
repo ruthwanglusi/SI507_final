@@ -1,5 +1,4 @@
 import os
-import jinja2
 from flask import *
 from flask_sqlalchemy import SQLAlchemy
 from SI507project_tool_pop import *
@@ -19,11 +18,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app) # For database use
 session = db.session # to make queries easy
 
-
 '''
-set up the database models
+Set Up Database
 '''
-#Set up association Table between artists and albums
+#STATE & PARK association table
 Park_State = db.Table('PARK_STATE',
     db.Column('park_id', db.Integer, db.ForeignKey('PARK.park_id')),
     db.Column('state_id', db.Integer, db.ForeignKey('STATE.id'))
@@ -66,11 +64,22 @@ class State(db.Model):
         return f'{self.name}'
 
 '''
-Set up Routes for webpage
+Set Up Routes
 '''
 @app.route('/')
 def home():
-    return 'MAPPPP'
+    num = 13
+    return render_template('main.html', total=num)
+    #total is a variable in main.html
+    
+
+@app.route('/state')
+def type():
+    return 'state page'
+
+@app.route('/type')
+def state():
+    return 'type page'
 
 
 '''
@@ -88,7 +97,7 @@ def create_db():
     statesAll = coll[3]
 
     # count = 0
-    
+
     for i in range(len(namesAll)):
 
         name = coll[0][i]
@@ -105,9 +114,10 @@ def create_db():
     # print(count)
 
 if __name__ == '__main__':
-    create_db()
+    # create_db()
     app.run()
 
 # References:
 # https://github.com/si507-w19/database_population_flask_example/blob/master/app.py
+# Using Jinja2 Templates in Flask https://www.youtube.com/watch?v=exR1kxpd1cY
 #???why missing 200 parks? empty list for states 8, none for type 42

@@ -15,7 +15,7 @@ Data Source: www.nps.gov
 ## How to run
 
 1. pip install required modules from requirements.txt
-2. run SI507project_tool_database
+2. run SI507project_tool_app.py
 
 ## How to use
 
@@ -24,7 +24,7 @@ Data Source: www.nps.gov
 3. Return to the home page, click on one park type to see an updated choropleth US map.
 
 ## Routes in this application
-- `/home` -> The overall national park density among all the US states visualized as a choropleth map.
+- `/` -> The overall national park density among all the US states visualized as a choropleth map.
 - `/state/(state name)` -> A list of all the national parks in a specific state.
 - `/type/(park type)` -> The density of a specific park type across all US states as a choropleth map.
 
@@ -37,8 +37,8 @@ Data Source: www.nps.gov
   - ERD_diagram.png
 - File name
 - SI507project_tool_scrape.py
+- SI507SI507project_tool_pop.py
 - SI507project_tool_app.py
-- SI507SI507project_tool_db.py
 - SI507project_test.py
 - README.md
 
@@ -65,7 +65,7 @@ Below is a list of the requirements listed in the rubric for you to copy and pas
 - [ ] Includes screenshots and/or clear descriptions of what your project should look like when it is working
 
 ### Flask Application
-- [ ] Includes at least 3 different routes
+- [X] Includes at least 3 different routes
 - [ ] View/s a user can see when the application runs that are understandable/legible for someone who has NOT taken this course
 - [X] Interactions with a database that has at least 2 tables
 - [X] At least 1 relationship between 2 tables in database
@@ -75,9 +75,9 @@ Below is a list of the requirements listed in the rubric for you to copy and pas
 - [ ] Use of a new module
 - [ ] Use of a second new module
 - [ ] Object definitions using inheritance (indicate if this counts for 2 or 3 of the six requirements in a parenthetical)
-- [ ] A many-to-many relationship in your database structure
+- [X] A many-to-many relationship in your database structure
 - [ ] At least one form in your Flask application
-- [ ] Templating in your Flask application
+- [X] Templating in your Flask application
 - [ ] Inclusion of JavaScript files in the application
 - [ ] Links in the views of Flask application page/s
 - [ ] Relevant use of `itertools` and/or `collections`
