@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
   <head>
     <meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
@@ -8,13 +9,21 @@
       {
         font-family: 'Lato', sans-serif;
         margin:2rem;
+        white-space:pre-wrap;
       }
     </style>
     <title>US National Parks</title>
   </head>
 
   <body>
-    <h1> Here are {{total}} parks</h1>
-    <p> Here are {{total}} parks</p>
+
+    {% for p in renderAll %}
+      <h2>{{p.name}}</h2>
+      <p>{{p.states}}</p>
+      <p>{{p.parkType}}</p>
+      <p>{{p.descrip}}</p>
+    {% endfor %}
+
   </body>
+
 </html>

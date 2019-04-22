@@ -24,15 +24,12 @@ def new_park(parkName,parkDes,parkType,stateLst):
 
         #append the states (many-many)
         sLst = []
-        try:
-            for i in stateLst:
-                sLst.append(set_get_state(i))
-        except:
-            print('empty list for states')
-            # ??? this doesn't print
+        for i in stateLst:
+            sLst.append(set_get_state(i))
 
         for s in sLst:
             park.states.append(s)
+
         session.add(park)
         session.commit()
 

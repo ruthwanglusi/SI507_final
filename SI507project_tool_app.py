@@ -35,30 +35,32 @@ class Park(db.Model):
 
     # TYPE & PARK (1-many)
     type_id = db.Column(db.Integer, db.ForeignKey('TYPE.id'))
-    type = db.relationship('Type', backref='type', lazy=True)
+    parkType = db.relationship('Type', backref='type', lazy=True)
 
     # STATE & PARK (many-many)
     # state_id = db.Column(db.Integer, db.ForeignKey('PARK_STATE.state_id'))
     states = db.relationship('State', secondary = Park_State, lazy='subquery',
     backref=db.backref('states',lazy=True))
 
-    # def __repr__(self):
-    #     return f'{self.name}\n{self.type}\n{self.states}\n{self.descrip}'
+    def __str__(self):
+        return f'\n{self.name}\n{self.parkType}\n{self.states}\n{self.descrip}'
 
 # TYPE & PARK (1-many)
 class Type(db.Model):
     __tablename__ = 'TYPE'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(250),unique=True) #some park may not have a type
+    name = db.Column(db.String(250),unique=True, nullable=True)
+    #some parks may not have a type
 
-    def __repr__(self):
+    def __str__(self):
         return f'This is a {self.name}.'
 
 # STATE & PARK (many-many)
 class State(db.Model):
     __tablename__ = 'STATE'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120),unique=True, nullable=False)
+    name = db.Column(db.String(120),unique=True, nullable=True)
+    #some parks may not have the state info
 
     def __repr__(self):
         return f'{self.name}'
@@ -67,19 +69,29 @@ class State(db.Model):
 Set Up Routes
 '''
 @app.route('/')
-def home():
-    num = 13
-    return render_template('main.html', total=num)
-    #total is a variable in main.html
-    
+def all_parks():
+    qParks = Park.query.all()
+    return render_template('main.html', renderAll=qParks)
+    #renderAll is a variable in main.html
 
-@app.route('/state')
-def type():
-    return 'state page'
 
-@app.route('/type')
-def state():
-    return 'type page'
+# @app.route('/state/<stateName>')
+# def state_parks():
+#     # qState = Park.query.filter_by(states='[' + stateName + ']').all()
+#     return 'state page'
+#
+
+# @app.route('/type/<typeName>')
+# def type_parks(typeName):
+
+# @app.route('/type/')
+# def type_parks():
+#     # qType =
+#     qPark= Park.query.filter_by(type_id='1').all()
+#     output = ''
+#     for p in qPark:
+#         output += p.__str__()
+#     return render_template('main.html', details=output)
 
 
 '''
@@ -96,28 +108,19 @@ def create_db():
     desAll = coll[2]
     statesAll = coll[3]
 
-    # count = 0
-
     for i in range(len(namesAll)):
 
         name = coll[0][i]
-        type = coll[1][i]
+        parkType = coll[1][i]
         descrip = coll[2][i]
         states = coll[3][i]
 
-        # if len(type) == 0:
-        #     count += 1
-        # else:
-        #     pass
-
-        new_park(name,descrip,type,states)
-    # print(count)
+        new_park(name,descrip,parkType,states)
 
 if __name__ == '__main__':
-    # create_db()
+    create_db()
     app.run()
 
 # References:
 # https://github.com/si507-w19/database_population_flask_example/blob/master/app.py
 # Using Jinja2 Templates in Flask https://www.youtube.com/watch?v=exR1kxpd1cY
-#???why missing 200 parks? empty list for states 8, none for type 42
