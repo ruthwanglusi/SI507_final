@@ -2,7 +2,7 @@ import os
 from flask import *
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import *
+from wtforms import SelectField
 
 from SI507project_tool_pop import *
 from SI507project_tool_scrape import *
@@ -39,7 +39,7 @@ class Park(db.Model):
 
     # TYPE & PARK (1-many)
     type_id = db.Column(db.Integer, db.ForeignKey('TYPE.id'))
-    parkType = db.relationship('Type', backref='type', lazy=True)
+    parkType = db.relationship('Type', backref='parks', lazy=True)
 
     # STATE & PARK (many-many)
     states = db.relationship('State', secondary = Park_State, lazy='subquery',
@@ -70,12 +70,27 @@ class State(db.Model):
         return f'{self.name}'
 
 '''
+Build the Forms
+'''
+class StateForm(FlaskForm):
+    select_state = SelectField('state', choices=[])
+
+class TypeForm(FlaskForm):
+    select_type = SelectField('type', choices=[])
+
+'''
 Set Up Routes
 '''
-@app.route('/')
+@app.route('/', methods=['GET'])
 def all_parks():
+    sf = StateForm()
+    sf.select_state.choices = [(s.id, s.name) for s in State.query.all()]
+
+    tf = TypeForm()
+    tf.select_type.choices = [(t.id, t.name) for t in Type.query.all()]
+
     qParks = Park.query.all()
-    return render_template('main.html', renderAll=qParks)
+    return render_template('main.html', renderAll=qParks, statef = sf, typef = tf)
 
 @app.route('/state/<stateName>')
 def state_parks(stateName):
@@ -86,7 +101,7 @@ def state_parks(stateName):
 @app.route('/type/<typeName>')
 def type_parks(typeName):
     qType = Type.query.filter_by(name=typeName).first()
-    qParks= Park.query.filter_by(type_id=str(qType.id)).all()
+    qParks = qType.parks
     return render_template('type.html', renderType=qParks)
 
 
@@ -120,5 +135,8 @@ if __name__ == '__main__':
 # References:
 # https://github.com/si507-w19/database_population_flask_example/blob/master/app.py
 # Using Jinja2 Templates in Flask https://www.youtube.com/watch?v=exR1kxpd1cY
+# flask_wtf drop down form https://www.youtube.com/watch?v=I2dJuNwlIH0
+
     #???how to get ride off the [] for states
-    # does flask_wtf count as a new module
+    # how to redirect to my new route from the drop down form 'action?'
+    # how to add two forms on the same page?
