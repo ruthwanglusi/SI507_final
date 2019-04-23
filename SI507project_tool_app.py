@@ -18,6 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app) # For database use
 session = db.session # to make queries easy
 
+
 '''
 Set Up Database
 '''
@@ -38,9 +39,8 @@ class Park(db.Model):
     parkType = db.relationship('Type', backref='type', lazy=True)
 
     # STATE & PARK (many-many)
-    # state_id = db.Column(db.Integer, db.ForeignKey('PARK_STATE.state_id'))
     states = db.relationship('State', secondary = Park_State, lazy='subquery',
-    backref=db.backref('states',lazy=True))
+    backref=db.backref('parks',lazy=True))
 
     def __str__(self):
         return f'\n{self.name}\n{self.parkType}\n{self.states}\n{self.descrip}'
@@ -53,7 +53,8 @@ class Type(db.Model):
     #some parks may not have a type
 
     def __str__(self):
-        return f'This is a {self.name}.'
+        return f'{self.name}'
+    #???how to get ride off the []
 
 # STATE & PARK (many-many)
 class State(db.Model):
@@ -61,6 +62,7 @@ class State(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120),unique=True, nullable=True)
     #some parks may not have the state info
+    print(type(name))
 
     def __repr__(self):
         return f'{self.name}'
@@ -72,26 +74,18 @@ Set Up Routes
 def all_parks():
     qParks = Park.query.all()
     return render_template('main.html', renderAll=qParks)
-    #renderAll is a variable in main.html
 
+@app.route('/state/<stateName>')
+def state_parks(stateName):
+    qState= State.query.filter_by(name=str(stateName)).first()
+    qParks = qState.parks
+    return render_template('state.html', renderState=qParks)
 
-# @app.route('/state/<stateName>')
-# def state_parks():
-#     # qState = Park.query.filter_by(states='[' + stateName + ']').all()
-#     return 'state page'
-#
-
-# @app.route('/type/<typeName>')
-# def type_parks(typeName):
-
-# @app.route('/type/')
-# def type_parks():
-#     # qType =
-#     qPark= Park.query.filter_by(type_id='1').all()
-#     output = ''
-#     for p in qPark:
-#         output += p.__str__()
-#     return render_template('main.html', details=output)
+@app.route('/type/<typeName>')
+def type_parks(typeName):
+    qType = Type.query.filter_by(name=typeName).first()
+    qParks= Park.query.filter_by(type_id=str(qType.id)).all()
+    return render_template('type.html', renderType=qParks)
 
 
 '''

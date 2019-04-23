@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <style media="screen">
+      body
+      {
+        font-family: 'Lato', sans-serif;
+        margin:2rem;
+        white-space:pre-wrap;
+      }
+    </style>
+    {% for p in renderType %}
+    <title>US {{p.parkType}}s</title>
+    {% endfor %}
+  </head>
+
+  <body>
+
+    {% for p in renderType %}
+      <h2>{{p.name}}</h2>
+      <p>{{p.states}}</p>
+      <p>{{p.descrip}}</p>
+    {% endfor %}
+
+  </body>
+
+</html>
