@@ -1,6 +1,6 @@
 import unittest
 import sqlite3
-from SI507project_tool_database import *
+from SI507project_tool_app import *
 
 class TestDB(unittest.TestCase):
     def setUp(self):

@@ -1,6 +1,9 @@
 import os
 from flask import *
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from wtforms import *
+
 from SI507project_tool_pop import *
 from SI507project_tool_scrape import *
 
@@ -54,7 +57,6 @@ class Type(db.Model):
 
     def __str__(self):
         return f'{self.name}'
-    #???how to get ride off the []
 
 # STATE & PARK (many-many)
 class State(db.Model):
@@ -118,3 +120,5 @@ if __name__ == '__main__':
 # References:
 # https://github.com/si507-w19/database_population_flask_example/blob/master/app.py
 # Using Jinja2 Templates in Flask https://www.youtube.com/watch?v=exR1kxpd1cY
+    #???how to get ride off the [] for states
+    # does flask_wtf count as a new module
