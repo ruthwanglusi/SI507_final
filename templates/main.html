@@ -11,34 +11,64 @@
         margin:2rem;
         white-space:pre-wrap;
       }
-
+      .results
+      {
+        display: grid;
+        grid-gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(400px,1fr))
+      }
     </style>
     <title>US National Parks</title>
-    <script src=form.js>
-    </script>
   </head>
 
   <body>
-    <h1 id="headline">National Parks in the US</h1>
-    <form class="dropDown" action="/state/MI" method="get">
+
+    <h1>National Parks in the US</h1>
+
+    <form id='state' action="" method="get">
       {{statef.csrf_token}}
       {{statef.select_state}}
       <input type="submit" name="submit_state" value="Submit State">
     </form>
 
-    <form class="dropDown" action="/type/National Monument" method="get">
+    <form id='type' action="" method="get">
       {{typef.csrf_token}}
       {{typef.select_type}}
       <input type="submit" name="submit_type" value="Submit Type">
     </form>
 
-    {% for p in renderAll %}
-      <h3>{{p.name}}</h3>
-      <p>{{p.states}}</p>
-      <p>{{p.parkType}}</p>
-      <p>{{p.descrip}}</p>
-    {% endfor %}
+    <div class="results">
+      {% for p in renderAll %}
+      <section>
+        <h3>{{p.name}}</h3>
+        <p>{{p.states}}</p>
+        <p>{{p.parkType}}</p>
+        <p>{{p.descrip}}</p>
+      </section>
+      {% endfor %}
+    </div>
 
+
+    <script>
+      let dropS = document.getElementById('state');
+      let headlineS = document.getElementById('headline');
+      dropS.onchange = function()
+      {
+        dropS_confirm = select_state.options[select_state.selectedIndex].text;
+        actionS = '/state/' + dropS_confirm
+        dropS.action = actionS
+        console.log(dropS.action);
+      }
+
+      let dropT = document.getElementById('type');
+      dropT.onchange = function()
+      {
+        dropT_confirm = select_type.options[select_type.selectedIndex].text;
+        actionT = '/type/' + dropT_confirm
+        dropT.action = actionT
+        console.log(dropT.action);
+      }
+    </script>
   </body>
 
 </html>

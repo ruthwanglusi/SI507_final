@@ -58,6 +58,9 @@ class Type(db.Model):
     def __str__(self):
         return f'{self.name}'
 
+    def __len__(self):
+        return len(self.name)
+
 # STATE & PARK (many-many)
 class State(db.Model):
     __tablename__ = 'STATE'
@@ -87,7 +90,11 @@ def all_parks():
     sf.select_state.choices = [(s.id, s.name) for s in State.query.all()]
 
     tf = TypeForm()
-    tf.select_type.choices = [(t.id, t.name) for t in Type.query.all()]
+    for t in Type.query.all():
+        if len(t)==0:
+            pass
+        else:
+            tf.select_type.choices += [(t.id, t.name)]
 
     qParks = Park.query.all()
     return render_template('main.html', renderAll=qParks, statef = sf, typef = tf)
@@ -96,13 +103,13 @@ def all_parks():
 def state_parks(stateName):
     qState= State.query.filter_by(name=str(stateName)).first()
     qParks = qState.parks
-    return render_template('state.html', renderState=qParks)
+    return render_template('state.html', renderState=qParks, queryState = stateName)
 
 @app.route('/type/<typeName>')
 def type_parks(typeName):
     qType = Type.query.filter_by(name=typeName).first()
     qParks = qType.parks
-    return render_template('type.html', renderType=qParks)
+    return render_template('type.html', renderType=qParks, queryType = typeName)
 
 
 '''
@@ -132,11 +139,13 @@ if __name__ == '__main__':
     create_db()
     app.run()
 
+
 # References:
 # https://github.com/si507-w19/database_population_flask_example/blob/master/app.py
 # Using Jinja2 Templates in Flask https://www.youtube.com/watch?v=exR1kxpd1cY
 # flask_wtf drop down form https://www.youtube.com/watch?v=I2dJuNwlIH0
+# Javascript for dynamic redirect http://javascript-coder.com/html-form/html-form-action.phtml
 
-    #???how to get ride off the [] for states
-    # how to redirect to my new route from the drop down form 'action?'
-    # how to add two forms on the same page?
+
+#???how to get ride off the [] for states
+#bug the first one in the drop down

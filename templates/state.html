@@ -11,19 +11,28 @@
         margin:2rem;
         white-space:pre-wrap;
       }
+      .results
+      {
+        display: grid;
+        grid-gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(400px,1fr))
+      }
     </style>
-    {% for p in renderState %}
-    <title>Parks in {{p.states}}</title>
-    {% endfor %}
+    <title>Parks in {{queryState}}</title>
   </head>
 
   <body>
+    <h1>Parks in {{queryState}}</h1>
 
-    {% for p in renderState %}
-      <h2>{{p.name}}</h2>
-      <p>{{p.parkType}}</p>
-      <p>{{p.descrip}}</p>
-    {% endfor %}
+    <div class="results">
+      {% for p in renderState %}
+      <section>
+        <h3>{{p.name}}</h3>
+        <p>{{p.parkType}}</p>
+        <p>{{p.descrip}}</p>
+      </section>
+      {% endfor %}
+    </div>
 
   </body>
 

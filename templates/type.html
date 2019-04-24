@@ -11,20 +11,28 @@
         margin:2rem;
         white-space:pre-wrap;
       }
+      .results
+      {
+        display: grid;
+        grid-gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(400px,1fr))
+      }
     </style>
-    {% for p in renderType %}
-    <title>US {{p.parkType}}s</title>
-    {% endfor %}
+    <title>US {{queryType}}s</title>
   </head>
 
   <body>
+    <h1>US {{queryType}}s</h1>
 
+    <div class="results">
     {% for p in renderType %}
-      <h2>{{p.name}}</h2>
-      <p>{{p.states}}</p>
-      <p>{{p.descrip}}</p>
+      <section>
+        <h3>{{p.name}}</h3>
+        <p>{{p.states}}</p>
+        <p>{{p.descrip}}</p>
+      </section>
     {% endfor %}
-
+    </div>
   </body>
 
 </html>

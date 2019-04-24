@@ -15,21 +15,21 @@ class TestDB(unittest.TestCase):
 
     #test the database for fetching the id given a state name
     def test_state_table(self):
-        self.cur.execute("select id where name = 'AL'")
+        self.cur.execute("select id from STATE where name = 'AL'")
         data = self.cur.fetchone()
-        self.assertEqual(data, ('1', 'AL'))
+        self.assertEqual(data, (1,))
 
-    #test the database for fetching the type_id given a park type
+    #test the database for fetching the id given a park type
     def test_type_table(self):
-        self.cur.execute("select id where name = 'National Monument'")
+        self.cur.execute("select id from TYPE where name = 'National Monument'")
         data = self.cur.fetchone()
-        self.assertEqual(data, ('1', 'National Monument'))
+        self.assertEqual(data, (1,))
 
     #test for inserting a new park type
     def test_park_insert(self):
         park = ('Test Park', 'National Monument', 'AL')
         parkC = ('Test Park', 'National Monument', 'AL')
-        self.cur.execute("insert into PARK(name, type, states) values (?,(select id from TYPE where name=?), (select id from STATE where name=?))", park)
+        self.cur.execute("insert into PARK(name, type_id, states) values (?,(select id from TYPE where name=?), (select id from STATE where name=?))", park)
         self.conn,commit()
 
         self.cur.execute("select type, states from PARK where name='Test Park'")
