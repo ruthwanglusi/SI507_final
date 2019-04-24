@@ -3,6 +3,7 @@ from flask import *
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import SelectField
+import itertools
 
 from SI507project_tool_pop import *
 from SI507project_tool_scrape import *
@@ -96,7 +97,10 @@ def all_parks():
         else:
             tf.select_type.choices += [(t.id, t.name)]
 
+    #create the auto incrementing featured park on the home page
     qParks = Park.query.all()
+    # featured_park = list(zip(itertools.count(),qParks))
+    # print(featured_park)
     return render_template('main.html', renderAll=qParks, statef = sf, typef = tf)
 
 @app.route('/state/<stateName>')
@@ -145,7 +149,9 @@ if __name__ == '__main__':
 # Using Jinja2 Templates in Flask https://www.youtube.com/watch?v=exR1kxpd1cY
 # flask_wtf drop down form https://www.youtube.com/watch?v=I2dJuNwlIH0
 # Javascript for dynamic redirect http://javascript-coder.com/html-form/html-form-action.phtml
-
+# Plotly mapping https://plot.ly/python/choropleth-maps/#united-states-choropleth-map
 
 #???how to get ride off the [] for states
 #bug the first one in the drop down
+#fix the test
+#tye to make a big map in the index page

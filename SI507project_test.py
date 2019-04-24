@@ -26,6 +26,7 @@ class TestDB(unittest.TestCase):
         self.assertEqual(data, (1,))
 
     #test for inserting a new park type
+    #this one fails because states is a relatoinship, cannot be tested 
     def test_park_insert(self):
         park = ('Test Park', 'National Monument', 'AL')
         parkC = ('Test Park', 'National Monument', 'AL')
