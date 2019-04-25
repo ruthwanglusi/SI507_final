@@ -50,7 +50,7 @@ def parse_parks():
         for eachPark in parks:
             # Name of the site
             try:
-                parkName = eachPark.h3.a.text
+                parkName = eachPark.h3.a.text.strip()
                 parkNameLst.append(parkName)
             except Exception as e:
                 parkName = None

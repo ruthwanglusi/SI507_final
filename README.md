@@ -33,16 +33,28 @@ Data Source: www.nps.gov
 1. Find the test file SI507project_test.py
 2. Run the test file
 
-## In this repository:
+## In this repository (folder structure):
+- SI507project_tool_app.py
+- SI507project_tool_scrape.py
+- SI507SI507project_tool_pop.py
+- SI507project_test.py
+- README.md
+- requirements.txt
+- park_info.db (created by running `create_db()` in SI507project_tool_app.py, currently commented out)
+- park_cache.json (created by running SI507project_tool_scrape.py, cache updates every 10 days)
+- advanced_expiry_caching.py (helper tool for caching)
+- Templates
+  - main.html (javascript included)
+  - state.html
+  - type.html
 - Image
   - ERD_diagram.png
-- File name
-  - SI507project_tool_app.py
-  - SI507project_tool_scrape.py
-  - SI507SI507project_tool_pop.py
-  - SI507project_test.py
-  - README.md
-  - requirements.txt
+  - screen_shots
+    - home-select-state.png
+    - state-result.png
+    - home-select-type.png
+    - type-result.png
+    - home.png (2 featured parks updates)
 
 ## Database diagram:
 ![](image/ERD_diagram.png)
@@ -80,14 +92,14 @@ Below is a list of the requirements listed in the rubric for you to copy and pas
 - [X] A many-to-many relationship in your database structure
 - [X] At least one form in your Flask application
 - [X] Templating in your Flask application
-- [X] Inclusion of JavaScript files in the application
+- [X] Inclusion of JavaScript files in the application (in main.html)
 - [X] Links in the views of Flask application page/s
-- [X] Relevant use of `itertools` and/or `collections`
+- [X] Relevant use of `itertools` and/or `collections` (2 featured parks)
 - [ ] Sourcing of data using web scraping
 - [ ] Sourcing of data using web REST API requests
 - [ ] Sourcing of data using user input and/or a downloaded .csv or .json dataset
 - [ ] Caching of data you continually retrieve from the internet in some way
 
 ### Submission
-- [ ] I included a link to my GitHub repository with the correct permissions on Canvas! (Did you though? Did you actually? Are you sure you didn't forget?)
-- [ ] I included a summary of my project and how I thought it went **in my Canvas submission**!
+- [X] I included a link to my GitHub repository with the correct permissions on Canvas! (Did you though? Did you actually? Are you sure you didn't forget?)
+- [X] I included a summary of my project and how I thought it went **in my Canvas submission**!

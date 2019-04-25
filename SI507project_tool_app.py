@@ -154,4 +154,3 @@ if __name__ == '__main__':
 # Using Jinja2 Templates in Flask https://www.youtube.com/watch?v=exR1kxpd1cY
 # flask_wtf drop down form https://www.youtube.com/watch?v=I2dJuNwlIH0
 # Javascript for dynamic redirect http://javascript-coder.com/html-form/html-form-action.phtml
-# Image Credit: Photo by Rodrigo Soares on Unsplash
