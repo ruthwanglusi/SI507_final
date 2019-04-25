@@ -89,11 +89,11 @@ Below is a list of the requirements listed in the rubric for you to copy and pas
 - [ ] Use of a new module
 - [ ] Use of a second new module
 - [ ] Object definitions using inheritance (indicate if this counts for 2 or 3 of the six requirements in a parenthetical)
-- [X] A many-to-many relationship in your database structure
-- [X] At least one form in your Flask application
-- [X] Templating in your Flask application
+- [X] A many-to-many relationship in your database structure (STATE and PARK)
+- [X] At least one form in your Flask application (2 drop-down menu)
+- [X] Templating in your Flask application (see 'templates' folder)
 - [X] Inclusion of JavaScript files in the application (in main.html)
-- [X] Links in the views of Flask application page/s
+- [X] Links in the views of Flask application page/s (through the drop-down menu)
 - [X] Relevant use of `itertools` and/or `collections` (2 featured parks update upon every reload)
 - [ ] Sourcing of data using web scraping
 - [ ] Sourcing of data using web REST API requests
