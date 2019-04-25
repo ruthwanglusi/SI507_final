@@ -8,7 +8,7 @@ by Lusi Wang
 
 ## Project Description
 
-This project presents US National Parks in web browser using Flask. It features 2 parks at the home page and allows users to filter parks by state and by type. Click on the drop down menu to access a full list of national parks at a chosen state or a chose park type.
+This project presents US National Parks in web browser using Flask. It features two parks at the home page and allows users to filter parks by state and by type. Click on the drop down menu to access a full list of national parks at a chosen state or a chose park type.
 
 Data Source: www.nps.gov
 
@@ -20,12 +20,12 @@ Data Source: www.nps.gov
 ## How to use
 
 1. Open a browser, go to address http://localhost:5000/
-2. Click on the state drop down list to see all the parks in that state
-3. Click on one park type to see all the national parks of that type
+2. Select a state in the drop-down list, then click 'submit state' to see all the parks in that state
+3. Select a type in the drop-down list, then click 'submit type' to see all the parks of that type
 4. Refresh the home page to see two new parks featured
 
 ## Routes in this application
-- `/` -> drop down menus to select state and type,also features 2 parks
+- `/` -> drop down menus to select state and type, 2 featured parks
 - `/state/(state name)` -> all the national parks in this state
 - `/type/(park type)` -> all the national parks of this type
 
@@ -54,7 +54,7 @@ Data Source: www.nps.gov
     - state-result.png
     - home-select-type.png
     - type-result.png
-    - home.png (2 featured parks updates)
+    - home.png
 
 ## Database diagram:
 ![](image/ERD_diagram.png)
@@ -94,7 +94,7 @@ Below is a list of the requirements listed in the rubric for you to copy and pas
 - [X] Templating in your Flask application
 - [X] Inclusion of JavaScript files in the application (in main.html)
 - [X] Links in the views of Flask application page/s
-- [X] Relevant use of `itertools` and/or `collections` (2 featured parks)
+- [X] Relevant use of `itertools` and/or `collections` (2 featured parks update upon every reload)
 - [ ] Sourcing of data using web scraping
 - [ ] Sourcing of data using web REST API requests
 - [ ] Sourcing of data using user input and/or a downloaded .csv or .json dataset
