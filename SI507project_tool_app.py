@@ -3,10 +3,12 @@ from flask import *
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import SelectField
-import itertools
+import collections
 
 from SI507project_tool_pop import *
 from SI507project_tool_scrape import *
+
+import random
 
 ##### Application Configuration #####
 app = Flask(__name__)
@@ -53,7 +55,7 @@ class Park(db.Model):
 class Type(db.Model):
     __tablename__ = 'TYPE'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(250),unique=True, nullable=True)
+    name = db.Column(db.String(250),nullable=True)
     #some parks may not have a type
 
     def __str__(self):
@@ -97,11 +99,15 @@ def all_parks():
         else:
             tf.select_type.choices += [(t.id, t.name)]
 
-    #create the auto incrementing featured park on the home page
+    #shuffle the park to randomly feature 2 upon refresh
     qParks = Park.query.all()
-    # featured_park = list(zip(itertools.count(),qParks))
-    # print(featured_park)
-    return render_template('main.html', renderAll=qParks, statef = sf, typef = tf)
+    random.shuffle(qParks)
+    de = collections.deque(maxlen=5)
+    for i in qParks:
+        de.append(i)
+
+    qParks = Park.query.all()
+    return render_template('main.html', statef = sf, typef = tf, feature=de)
 
 @app.route('/state/<stateName>')
 def state_parks(stateName):
@@ -140,7 +146,7 @@ def create_db():
         new_park(name,descrip,parkType,states)
 
 if __name__ == '__main__':
-    create_db()
+    # create_db()
     app.run()
 
 
@@ -149,9 +155,4 @@ if __name__ == '__main__':
 # Using Jinja2 Templates in Flask https://www.youtube.com/watch?v=exR1kxpd1cY
 # flask_wtf drop down form https://www.youtube.com/watch?v=I2dJuNwlIH0
 # Javascript for dynamic redirect http://javascript-coder.com/html-form/html-form-action.phtml
-# Plotly mapping https://plot.ly/python/choropleth-maps/#united-states-choropleth-map
-
-#???how to get ride off the [] for states
-#bug the first one in the drop down
-#fix the test
-#tye to make a big map in the index page
+# Image Credit: Photo by Rodrigo Soares on Unsplash

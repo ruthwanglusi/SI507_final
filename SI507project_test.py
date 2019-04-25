@@ -26,14 +26,14 @@ class TestDB(unittest.TestCase):
         self.assertEqual(data, (1,))
 
     #test for inserting a new park type
-    #this one fails because states is a relatoinship, cannot be tested 
+    #this one fails because states is a relatoinship, cannot be tested
     def test_park_insert(self):
-        park = ('Test Park', 'National Monument', 'AL')
-        parkC = ('Test Park', 'National Monument', 'AL')
-        self.cur.execute("insert into PARK(name, type_id, states) values (?,(select id from TYPE where name=?), (select id from STATE where name=?))", park)
-        self.conn,commit()
+        park = ('Test Park', 1)
+        parkC = ('Test Park', 1)
+        self.cur.execute("insert into PARK(name, type_id) values (?,(select id from TYPE where name=?))", park)
+        self.conn.commit()
 
-        self.cur.execute("select type, states from PARK where name='Test Park'")
+        self.cur.execute("select name, type_id from PARK where name='Test Park'")
         data = self.cur.fetchone()
         self.assertEqual(data, parkC, 'testing select statement after inserting the park')
 

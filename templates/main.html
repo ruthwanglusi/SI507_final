@@ -15,37 +15,36 @@
       {
         display: grid;
         grid-gap: 1rem;
-        grid-template-columns: repeat(auto-fit, minmax(400px,1fr))
+        padding: 0.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(400px,1fr));
       }
+      h1{color:#F64C72;}
+      h3{color:#2F2FA2;}
     </style>
     <title>US National Parks</title>
   </head>
 
   <body>
-
     <h1>National Parks in the US</h1>
 
-    <form id='state' action="" method="get">
-      {{statef.csrf_token}}
-      {{statef.select_state}}
-      <input type="submit" name="submit_state" value="Submit State">
-    </form>
-
-    <form id='type' action="" method="get">
-      {{typef.csrf_token}}
-      {{typef.select_type}}
-      <input type="submit" name="submit_type" value="Submit Type">
-    </form>
-
     <div class="results">
-      {% for p in renderAll %}
-      <section>
-        <h3>{{p.name}}</h3>
-        <p>{{p.states}}</p>
-        <p>{{p.parkType}}</p>
-        <p>{{p.descrip}}</p>
-      </section>
-      {% endfor %}
+      <form id='state' action="" method="get">
+        {{statef.csrf_token}}
+        {{statef.select_state}}
+        <input type="submit" name="submit_state" value="Submit State">
+      </form>
+
+      <form id='type' action="" method="get">
+        {{typef.csrf_token}}
+        {{typef.select_type}}
+        <input type="submit" name="submit_type" value="Submit Type">
+      </form>
+    </div>
+
+    <h3>Feature 2 New Parks Upon Refresh</h3>
+    <div class="results">
+      <p>{{feature.pop()}}</p>
+      <p>{{feature.popleft()}}</p>
     </div>
 
 

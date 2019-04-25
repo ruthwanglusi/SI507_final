@@ -57,7 +57,7 @@ def parse_parks():
 
             # type of the site
             try:
-                parkType = eachPark.h2.text
+                parkType = eachPark.h2.text.strip()
                 parkTypeLst.append(parkType)
             except Exception as e:
                 parkType = None
